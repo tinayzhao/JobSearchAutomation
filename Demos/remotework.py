@@ -25,7 +25,7 @@ def get_webpage():
 	print('Updated as of '  + now.strftime('%m/%d/%y %I:%M:%f'))
 	return res
 
-#Use Beautiful Soup to return data
+#Use Beautiful Soup to return data based off classId
 def get_data(res, *classId):	
 	soup = bs4.BeautifulSoup(res.text, "lxml")
 	columns = []
@@ -40,6 +40,8 @@ webpage = get_webpage()
 data = get_data(webpage, 'company')
 #new_db.create_table('Remote_work', 'Company', 'TEXT')
 #new_db.populate_table('Remote_work', 'Company', data)
-new_db.get_row('Remote_work', 'Company', 'Bitovi')[0]
+new_db.view_contents('Remote_work')
+print("")
+new_db.get_row('Remote_work', 'Company', 'Bitovi')
 #create_table('Remote_work', 'Company', 'TYPE')
 
