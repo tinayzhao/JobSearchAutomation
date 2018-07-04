@@ -1,4 +1,5 @@
 import sqlite3
+import pandas as pd
 
 #Database File
 
@@ -39,7 +40,14 @@ def get_row(table_name, column_name, content):
 	all_rows = cur.fetchall()
 	print(all_rows)
 
+def get_connect():
+	cur = conn.cursor()
+	return conn
+
 def close_db():
 	conn.commit()
 	conn.close()
+
+
+print(pd.read_sql_query("SELECT * FROM Remote_work", conn))
 

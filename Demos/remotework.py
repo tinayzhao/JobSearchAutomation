@@ -45,3 +45,4 @@ print("")
 new_db.get_row('Remote_work', 'Company', 'Bitovi')
 #create_table('Remote_work', 'Company', 'TYPE')
 
+
