@@ -1,14 +1,17 @@
 import sqlite3
 import pandas as pd
 
-#Database File
+#Database Demo File
 
 sqlite_file = 'cs_database.sqlite'
 conn = sqlite3.connect(sqlite_file)
 cur = conn.cursor()
 
-def create_table(table_name, first_column, first_type): 
-	cur.execute('CREATE TABLE {tn} ({fc} {ft})'.format(tn = table_name, fc = first_column, ft = first_type))
+def create_table(table_name, columns, types): 
+	command = 'CREATE TABLE {tn} ({fc} {ft},'.format(tn = table_name, fc = columns[0], ft = types[0])
+	for i in range(0, len(columns)):
+		command += ''.format(c = columns[i], t = types[i])
+	cur.execute()
 	conn.commit()
 
 def list_tables():
@@ -40,6 +43,9 @@ def get_row(table_name, column_name, content):
 	all_rows = cur.fetchall()
 	print(all_rows)
 
+def drop_tables(table_name):
+	cur.execute("DROP TABLE {tn}".format(tn = table_name))
+
 def get_connect():
 	cur = conn.cursor()
 	return conn
@@ -48,6 +54,10 @@ def close_db():
 	conn.commit()
 	conn.close()
 
+def print_table(table_name) {
+	print(pd.read_sql_query("SELECT * FROM {tn}".format(tn = table_name), conn))
+}
 
-print(pd.read_sql_query("SELECT * FROM Remote_work", conn))
+
+#print(pd.read_sql_query("SELECT * FROM Remote_work", conn))
 
