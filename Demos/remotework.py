@@ -1,6 +1,6 @@
 import requests
 import bs4
-import new_db
+
 
 '''
 Basic Web Scraper (Built with Requests and BeautifulSoup)
@@ -29,23 +29,5 @@ def get_data(res, *classId):
 		col = soup.select('.' + c)
 		columns.append(col)
 	return columns
-
-
-
-#run this
-#webpage = get_webpage()
-#data = get_data(webpage, 'company', 'title')
-#new_db.create_table('Remote_work7', ['Company', 'Position'], ['TEXT', 'TEXT'])
-#new_db.populate_table('Remote_work7', data)
-#new_db.print_table('Remote_work7')
-
-new_db.list_tables()
-
-#new_db.create_table('Remote_work', 'Company', 'TEXT')
-#new_db.populate_table('Remote_work', 'Company', data)
-#new_db.view_contents('Remote_work')
-#print("")
-#new_db.get_row('Remote_work', 'Company', 'Bitovi')
-#create_table('Remote_work', 'Company', 'TYPE')
 
 

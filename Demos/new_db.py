@@ -67,7 +67,6 @@ def populate_table(table_name, data):
 	for i in range(0, len(data)):
 		column_name = get_column_name(table_name, i)
 		column_list.append(column_name)
-
 	for i in range(0, len(data[0])):
 		row_values = []
 		j = 0
@@ -75,7 +74,6 @@ def populate_table(table_name, data):
 			row_values.append(data[j][i].getText())
 			j += 1
 		add_row(table_name, column_list, row_values)
-
 	conn.commit()
 
 def get_row(table_name, column_name, content):
@@ -97,7 +95,4 @@ def close_db():
 
 def print_table(table_name):
 	print(pd.read_sql_query("SELECT * FROM {tn}".format(tn = table_name), conn))
-
-
-#print(pd.read_sql_query("SELECT * FROM Remote_work", conn))
 
