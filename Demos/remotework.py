@@ -1,7 +1,5 @@
 import requests
 import bs4
-import csv
-import datetime
 import new_db
 
 '''
@@ -9,7 +7,7 @@ Basic Web Scraper (Built with Requests and BeautifulSoup)
 ----------------------------------------------------------
 Before You Start:
 1. Check site's robot.txt.
-2. Browse source code of the site
+2. Familiarize yourself with the source code of the webpage
 '''
 
 '''
@@ -17,7 +15,6 @@ Requests the webpage and checks for errors
 '''
 def get_webpage():
 	res = requests.get('https://weworkremotely.com/categories/remote-programming-jobs')
-	now = datetime.datetime.now()
 	try:
 		res.raise_for_status()
 	except Exception as e:
@@ -42,13 +39,6 @@ def get_data(res, *classId):
 #new_db.populate_table('Remote_work7', data)
 #new_db.print_table('Remote_work7')
 
-new_db.drop_table("Remote_work")
-new_db.drop_table("Remote_work2")
-new_db.drop_table("Remote_work3")
-new_db.drop_table("Remote_work4")
-new_db.drop_table("Remote_work5")
-new_db.drop_table("Remote_work6")
-new_db.drop_table("Remote_work7")
 new_db.list_tables()
 
 #new_db.create_table('Remote_work', 'Company', 'TEXT')
