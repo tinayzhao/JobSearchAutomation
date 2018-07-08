@@ -22,7 +22,6 @@ def get_webpage():
 		res.raise_for_status()
 	except Exception as e:
 		print(e)
-	print('Updated as of '  + now.strftime('%m/%d/%y %I:%M:%f'))
 	return res
 
 #Use Beautiful Soup to return data based off classId
@@ -32,17 +31,26 @@ def get_data(res, *classId):
 	for c in classId: 
 		col = soup.select('.' + c)
 		columns.append(col)
+	#print(columns[0])
+	#print("")
+	#print("")
+	#print(columns[1])
 	return columns
 
 
+
 #run this
-webpage = get_webpage()
-data = get_data(webpage, 'company')
+#webpage = get_webpage()
+#data = get_data(webpage, 'company', 'title')
+#new_db.create_table('Remote_work2', ['Company', 'Position'], ['TEXT', 'TEXT'])
+#new_db.populate_table('Remote_work2', 'Company', data)
+new_db.print_table('Remote_work2')
+
 #new_db.create_table('Remote_work', 'Company', 'TEXT')
 #new_db.populate_table('Remote_work', 'Company', data)
-new_db.view_contents('Remote_work')
-print("")
-new_db.get_row('Remote_work', 'Company', 'Bitovi')
+#new_db.view_contents('Remote_work')
+#print("")
+#new_db.get_row('Remote_work', 'Company', 'Bitovi')
 #create_table('Remote_work', 'Company', 'TYPE')
 
 
