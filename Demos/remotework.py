@@ -31,10 +31,6 @@ def get_data(res, *classId):
 	for c in classId: 
 		col = soup.select('.' + c)
 		columns.append(col)
-	#print(columns[0])
-	#print("")
-	#print("")
-	#print(columns[1])
 	return columns
 
 
@@ -45,6 +41,14 @@ def get_data(res, *classId):
 #new_db.create_table('Remote_work7', ['Company', 'Position'], ['TEXT', 'TEXT'])
 #new_db.populate_table('Remote_work7', data)
 #new_db.print_table('Remote_work7')
+
+new_db.drop_table("Remote_work")
+new_db.drop_table("Remote_work2")
+new_db.drop_table("Remote_work3")
+new_db.drop_table("Remote_work4")
+new_db.drop_table("Remote_work5")
+new_db.drop_table("Remote_work6")
+new_db.drop_table("Remote_work7")
 new_db.list_tables()
 
 #new_db.create_table('Remote_work', 'Company', 'TEXT')

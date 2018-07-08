@@ -83,7 +83,7 @@ def get_row(table_name, column_name, content):
 	all_rows = cur.fetchall()
 	print(all_rows)
 
-def drop_tables(table_name):
+def drop_table(table_name):
 	cur.execute("DROP TABLE {tn}".format(tn = table_name))
 	conn.commit()
 
