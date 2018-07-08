@@ -40,17 +40,42 @@ def view_contents(table_name):
 	results = cur.fetchall()
 	print(results)
 
-def add_row(table_name, column_name, content):
+def add_row2(table_name, column_name, content):
 	cur.execute("INSERT INTO {tn} ({cn}) VALUES ('{ct}')".format(tn = table_name, cn = column_name, ct = content))
 
-def populate_table(table_name, column_name, data):
+def add_row(table_name, column_list, row_values):
+	command = "INSERT INTO {tn} (".format(tn = table_name)
+	index = 0
+	for i in column_list:
+		if index != len(column_list) - 1:
+			command += "{cn}, ".format(cn = i)
+			index += 1
+		else: 
+			command += "{cn}) ".format(cn = i)
+	command += "VALUES ("
+	index = 0
+	for j in row_values:
+		if index != len(column_list) - 1:
+			command += "'{ct}', ".format(ct = j)
+			index += 1
+		else: 
+			command += "'{ct}') ".format(ct = j)
+	cur.execute(command)
+
+def populate_table(table_name, data):
+	column_list = []
 	for i in range(0, len(data)):
-		column_index = 0
-		column_name = get_column_name(table_name, column_index)
-		for row in data[i]:
-			c = row.getText()
-			add_row(table_name, column_name, c)
-		column_index += 1
+		column_name = get_column_name(table_name, i)
+		column_list.append(column_name)
+
+	for i in range(0, len(data[0])):
+		row_values = []
+		j = 0
+		while j < len(data):
+			row_values.append(data[j][i].getText())
+			j += 1
+		add_row(table_name, column_list, row_values)
+
 	conn.commit()
 
 def get_row(table_name, column_name, content):

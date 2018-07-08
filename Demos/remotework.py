@@ -42,9 +42,10 @@ def get_data(res, *classId):
 #run this
 #webpage = get_webpage()
 #data = get_data(webpage, 'company', 'title')
-#new_db.create_table('Remote_work2', ['Company', 'Position'], ['TEXT', 'TEXT'])
-#new_db.populate_table('Remote_work2', 'Company', data)
-new_db.print_table('Remote_work2')
+#new_db.create_table('Remote_work7', ['Company', 'Position'], ['TEXT', 'TEXT'])
+#new_db.populate_table('Remote_work7', data)
+#new_db.print_table('Remote_work7')
+new_db.list_tables()
 
 #new_db.create_table('Remote_work', 'Company', 'TEXT')
 #new_db.populate_table('Remote_work', 'Company', data)
