@@ -71,7 +71,11 @@ def populate_table(table_name, data):
 		row_values = []
 		j = 0
 		while j < len(data):
-			row_values.append(data[j][i].getText())
+			val = data[j][i]
+			if type(val) is str:
+				row_values.append(val)
+			else:
+				row_values.append(val.getText())
 			j += 1
 		add_row(table_name, column_list, row_values)
 	conn.commit()

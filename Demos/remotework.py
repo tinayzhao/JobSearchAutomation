@@ -25,11 +25,13 @@ def get_data(res, *classId):
 	for c in classId: 
 		col = soup.select('.' + c)
 		columns.append(col)
+	columns.append(find_links(res))
 	return columns
 
 def find_links(res):
-	soup = bs4.BeautifulSoup(res.text, "lxml")
-	for a in soup.find_all('a', href=True):
- 		print("Found the URL: " + a['href'])
-
-
+    soup = bs4.BeautifulSoup(res.text, "lxml")
+    link_lst = []
+    for a in soup.find_all('a', href=True):
+        if "/remote-jobs/" in a['href']:
+            link_lst.append(a['href'])
+    return link_lst
