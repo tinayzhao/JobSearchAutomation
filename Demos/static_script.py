@@ -8,7 +8,7 @@ data = get_data(webpage, 'company', 'title')
 
 #Test Table Creation
 new_db.create_table('Remote_work', ['Company', 'Position', 'Link'], ['TEXT', 'TEXT', 'TEXT'])
-new_db.populate_table('Remote_work', data, 0)
+new_db.populate_table('Remote_work', 0, data)
 
 #Test printing and exporting
 new_db.print_table('Remote_work')
