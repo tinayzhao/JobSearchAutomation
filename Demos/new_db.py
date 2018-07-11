@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+from selenium import webdriver
 
 #Database Demo File
 
@@ -55,14 +56,23 @@ def add_row(table_name, column_list, row_values):
 	command += "VALUES ("
 	index = 0
 	for j in row_values:
-		if index != len(column_list) - 1:
-			command += "'{ct}', ".format(ct = j)
-			index += 1
+		if "'" not in j:
+			if index != len(column_list) - 1:
+				command += "'{ct}', ".format(ct = j)
+				index += 1
+			else: 
+				command += "'{ct}') ".format(ct = j)
 		else: 
-			command += "'{ct}') ".format(ct = j)
+			if index != len(column_list) - 1:
+				command += "'{{ct}}', ".format(ct = j)
+				index += 1
+			else: 
+				command += "'{{ct}}') ".format(ct = j)
 	cur.execute(command)
 
-def populate_table(table_name, data):
+#0 refers to static
+#1 refers to Selenium
+def populate_table(table_name, web_scraper, data):
 	column_list = []
 	for i in range(0, len(data)):
 		column_name = get_column_name(table_name, i)
@@ -75,7 +85,13 @@ def populate_table(table_name, data):
 			if type(val) is str:
 				row_values.append(val)
 			else:
-				row_values.append(val.getText())
+				if web_scraper == 0:
+					row_values.append(val.getText())
+				else:
+					if type(val) is str:
+						row_values.append(val)
+					else:
+						row_values.append(val.text)
 			j += 1
 		add_row(table_name, column_list, row_values)
 	conn.commit()
@@ -99,4 +115,6 @@ def close_db():
 
 def print_table(table_name):
 	print(pd.read_sql_query("SELECT * FROM {tn}".format(tn = table_name), conn))
+
+
 

@@ -28,6 +28,7 @@ def get_data(res, *classId):
     columns.append(find_links(res))
     return columns
 
+#Uses Beautiful Soup to find all links 
 def find_links(res):
     soup = bs4.BeautifulSoup(res.text, "lxml")
     link_lst = []
@@ -36,3 +37,5 @@ def find_links(res):
         if "/remote-jobs/" in link and "https://weworkremotely.com" not in link:
             link_lst.append(link)
     return link_lst
+
+

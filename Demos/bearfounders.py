@@ -1,6 +1,8 @@
-#Python Script
+#Selenium Script
 
 from selenium import webdriver
+import new_db
+import time
 
 options = webdriver.ChromeOptions()
 
@@ -18,7 +20,7 @@ driver.get('https://bearfounders.com/login')
 # wait up to 10 seconds for the elements to become available
 driver.implicitly_wait(10)
 
-driver.get_screenshot_as_file('login.png')
+#driver.get_screenshot_as_file('login.png')
 
 #find the forms we want to fill in through CSS selectors
 email = driver.find_element_by_css_selector('input[type=text]')
@@ -30,39 +32,73 @@ email.send_keys('tinazhao@berkeley.edu')
 password.send_keys('mypasswordsucks')
 
 #check that it works
-driver.get_screenshot_as_file('login-page.png')
+#driver.get_screenshot_as_file('login-page.png')
 
 login.click()
 #driver.implicitly_wait(5)
-driver.get_screenshot_as_file('main-page.png')
+#driver.get_screenshot_as_file('main-page.png')
 
 jobs = driver.find_element_by_css_selector('a[data-category=jobs]')
 jobs.click()
 driver.implicitly_wait(10)
-driver.get_screenshot_as_file('jobs-page.png')
+#driver.get_screenshot_as_file('jobs-page.png')
 
-#dropdowns = driver.find_elements_by_class_name('current')
-#dropdowns = driver.find_elements_by_css_selector('.nice-select.filter.small')
-#dropdowns = driver.find_elements_by_css_selector('.selects.jobs.is-visible')
 dropdowns = driver.find_elements_by_class_name('filter-container')
-#dropdowns = driver.find_elements_by_class_name('nice-select filter small')
-print(len(dropdowns))
-for i in range(0, len(dropdowns)):
-	print(dropdowns[i].is_displayed())
+
 dropdown = dropdowns[6]
 dropdown.click()
 
-driver.get_screenshot_as_file('dropdown.png')
+#driver.get_screenshot_as_file('dropdown.png')
 
 technology = driver.find_element_by_css_selector('li[data-value=TECH]')
 technology.click()
 
-driver.get_screenshot_as_file('dropdown-click.png')
+#driver.get_screenshot_as_file('dropdown-click.png')
 
 go = driver.find_element_by_class_name('cd-search-button')
 go.click()
 
-driver.get_screenshot_as_file('after-go.png')
+#driver.get_screenshot_as_file('after-go.png')
 
 
+SCROLL_PAUSE_TIME = 0.5
 
+# Get scroll height
+last_height = driver.execute_script("return document.body.scrollHeight")
+
+while True:
+    # Scroll down to bottom
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    # Wait to load page
+    time.sleep(SCROLL_PAUSE_TIME)
+
+    # Calculate new scroll height and compare with last scroll height
+    new_height = driver.execute_script("return document.body.scrollHeight")
+    if new_height == last_height:
+        break
+    last_height = new_height
+
+#driver.get_screenshot_as_file('scroll_down.png')
+
+companies = driver.find_elements_by_tag_name('h2')
+
+jobs = driver.find_elements_by_tag_name('h3')
+
+all_links = driver.find_elements_by_xpath("//a[@href]")
+
+job_links_elem = all_links[8:-3]
+
+job_links = []
+
+for elem in job_links_elem:
+	job_links.append(elem.get_attribute("href"))
+
+table_list = [companies, jobs, job_links]
+
+new_db.drop_table('Bear_founders')
+new_db.create_table('Bear_founders', ['Company', 'Position', 'Link'], ['TEXT', 'TEXT', 'TEXT'])
+new_db.populate_table('Bear_founders', 1, table_list)
+
+#Test printing and exporting
+new_db.print_table('Bear_founders')
