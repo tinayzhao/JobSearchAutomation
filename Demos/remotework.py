@@ -35,7 +35,7 @@ def find_links(res):
     for a in soup.find_all('a', href=True):
         link = a['href']
         if "/remote-jobs/" in link and "https://weworkremotely.com" not in link:
-            link_lst.append(link)
+            link_lst.append("https://weworkremotely.com" + link)
     return link_lst
 
 

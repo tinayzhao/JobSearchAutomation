@@ -36,11 +36,12 @@ def get_column_name(table_name, index):
 		track+=1
 
 #Return a list of all column names in a table
-def get all_columns(table_name):
+def get_all_columns(table_name):
 	res = cur.execute("PRAGMA table_info({tn})".format(tn=table_name))
 	lst = []
 	for i in res:
 		lst.append(i)
+	return lst
 
 #Prints schema of table
 def check_schema(table_name):
@@ -84,8 +85,10 @@ def add_row(table_name, column_list, row_values):
 				command += "'{{ct}}') ".format(ct = j)
 	cur.execute(command)
 
-#0 refers to static
-#1 refers to Selenium
+'''
+Populate rows of a table
+web_scraper: 0 refers to static and 1 refers to Selenium
+'''
 def populate_table(table_name, web_scraper, data):
 	column_list = []
 	for i in range(0, len(data)):
@@ -115,7 +118,9 @@ def select_row(table_name, column_name, content):
 	all_rows = cur.fetchall()
 	return all_rows
 
-#def get_row(table_name):
+def get_rows(table_name):
+	res = cur.execute("SELECT * from {tn}".format(tn = table_name))
+	return list(res)
 
 #def populate_airtable(table_name, rows):
 

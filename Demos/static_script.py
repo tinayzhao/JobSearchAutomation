@@ -1,4 +1,4 @@
-from new_db import drop_table, create_table, populate_table, export_csv, get_column_name
+from new_db import drop_table, create_table, populate_table, export_csv, get_column_name, get_rows, get_all_columns
 from remotework import get_webpage, get_data, find_links
 from airtable import Airtable
 
@@ -10,9 +10,19 @@ data = get_data(webpage, 'company', 'title')
 #SQL Table Creation
 create_table('Remote_work', ['Company', 'Position', 'Link'], ['TEXT', 'TEXT', 'TEXT'])
 populate_table('Remote_work', 0, data)
-print(get_column_name("Remote_work", 0))
+
+
 #Export to CSV
 #export_csv('Remote_work')
 
 #Airtable API
-#remotetable = Airtable('app7MGkIIuH9oeI5V', 'Remote Work', 'key4RKPGoJAzzJzAO')
+all_rows = get_rows('Remote_work')
+columns = get_all_columns('Remote_work')
+remotetable = Airtable('app7MGkIIuH9oeI5V', 'Jobs', 'key4RKPGoJAzzJzAO')
+
+for i in all_rows:
+	row = {}
+	for j in range(0, len(columns)):
+		row[columns[j][1]] = i[j]
+	remotetable.insert(row)
+	
