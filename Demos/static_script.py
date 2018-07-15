@@ -1,14 +1,18 @@
-import new_db
+from new_db import drop_table, create_table, populate_table, export_csv, get_column_name
 from remotework import get_webpage, get_data, find_links
+from airtable import Airtable
 
 #Test Requests and Beautiful Soup
-new_db.drop_table("Remote_work")
+drop_table("Remote_work")
 webpage = get_webpage("https://weworkremotely.com/categories/remote-programming-jobs")
 data = get_data(webpage, 'company', 'title')
 
-#Test Table Creation
-new_db.create_table('Remote_work', ['Company', 'Position', 'Link'], ['TEXT', 'TEXT', 'TEXT'])
-new_db.populate_table('Remote_work', 0, data)
+#SQL Table Creation
+create_table('Remote_work', ['Company', 'Position', 'Link'], ['TEXT', 'TEXT', 'TEXT'])
+populate_table('Remote_work', 0, data)
+print(get_column_name("Remote_work", 0))
+#Export to CSV
+#export_csv('Remote_work')
 
-#Test printing and exporting
-new_db.print_table('Remote_work')
+#Airtable API
+#remotetable = Airtable('app7MGkIIuH9oeI5V', 'Remote Work', 'key4RKPGoJAzzJzAO')
