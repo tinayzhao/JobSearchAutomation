@@ -1,8 +1,11 @@
 #Selenium Script
 
 from selenium import webdriver
-import new_db
+from remotework import current_date
+from new_db import drop_table, create_table, populate_table, export_csv, get_column_name, get_rows, get_all_columns
+from airtable import Airtable
 import time
+import secret
 
 options = webdriver.ChromeOptions()
 
@@ -28,8 +31,8 @@ password = driver.find_element_by_css_selector('input[type=password]')
 login = driver.find_element_by_css_selector('input[value="Login"]')
 
 #fill in the forms
-email.send_keys('tinazhao@berkeley.edu')
-password.send_keys('mypasswordsucks')
+email.send_keys(secret.username)
+password.send_keys(secret.password)
 
 #check that it works
 #driver.get_screenshot_as_file('login-page.png')
@@ -92,13 +95,28 @@ job_links_elem = all_links[8:-3]
 job_links = []
 
 for elem in job_links_elem:
-	job_links.append(elem.get_attribute("href"))
+	job_links.append("https://bearfounders.com" + elem.get_attribute("href"))
 
-table_list = [companies, jobs, job_links]
+table_list = [companies, jobs, job_links, current_date(len(companies))]
 
-new_db.drop_table('Bear_founders')
-new_db.create_table('Bear_founders', ['Company', 'Position', 'Link'], ['TEXT', 'TEXT', 'TEXT'])
-new_db.populate_table('Bear_founders', 1, table_list)
+drop_table('Bear_founders')
+create_table('Bear_founders', ['Company', 'Position', 'Link', 'UpdateDate'], ['TEXT', 'TEXT', 'TEXT', 'TEXT'])
+populate_table('Bear_founders', 1, table_list)
+
+all_rows = get_rows('Bear_founders')
+columns = get_all_columns('Bear_founders')
+
+jobtable = Airtable('app7MGkIIuH9oeI5V', 'Jobs', 'key4RKPGoJAzzJzAO')
+
+for i in all_rows:
+    row = {}
+    for j in range(0, len(columns)):
+        row[columns[j][1]] = i[j]
+    jobtable.insert(row)
+
+
 
 #Test printing and exporting
-new_db.print_table('Bear_founders')
+#new_db.print_table('Bear_founders')
+
+

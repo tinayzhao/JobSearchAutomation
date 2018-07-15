@@ -122,10 +122,6 @@ def get_rows(table_name):
 	res = cur.execute("SELECT * from {tn}".format(tn = table_name))
 	return list(res)
 
-#def populate_airtable(table_name, rows):
-
-
-
 def drop_table(table_name):
 	cur.execute("DROP TABLE {tn}".format(tn = table_name))
 	conn.commit()

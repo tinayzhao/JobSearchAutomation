@@ -1,5 +1,6 @@
 import requests
 import bs4
+import datetime
 
 '''
 Basic Web Scraper (Built with Requests and BeautifulSoup)
@@ -26,6 +27,8 @@ def get_data(res, *classId):
         col = soup.select('.' + c)
         columns.append(col)
     columns.append(find_links(res))
+    columns.append(find_date(res))
+    columns.append(current_date(len(columns[0])))
     return columns
 
 #Uses Beautiful Soup to find all links 
@@ -38,4 +41,18 @@ def find_links(res):
             link_lst.append("https://weworkremotely.com" + link)
     return link_lst
 
+def find_date(res):
+    soup = bs4.BeautifulSoup(res.text, "lxml")
+    date_lst = []
+    for time in soup.find_all('time'):
+        link = time['datetime']
+        date_lst.append(link)
+    return date_lst
+
+def current_date(length):
+    cur_date = datetime.datetime.utcnow()
+    lst = []
+    for i in range(0, length):
+        lst.append(str(cur_date))
+    return lst
 
