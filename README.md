@@ -1,7 +1,5 @@
-# Automate Your Job Search
+# Easy Job Application Bot
 
-Automate Your Job Search is a tool that streamlines the process of searching for CS internships and jobs by scraping data daily from your favorite CS sites and maintaining a database to narrow down your search. 
+Looks up Github repos with the year's new grad jobs, scrapes them from the README.md and applies to as many jobs as it can for you depending on the link: LinkedIn, Lever, etc.
 
-## Weekly Overview
-[Week 1 Notes](https://hackmd.io/s/Hyprq3sg7)<br />
-[Week 2 Notes](https://hackmd.io/s/rkBppauWm)<br />
+This project is currently in progress of being rehashed.

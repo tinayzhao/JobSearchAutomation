@@ -1,8 +1,9 @@
 #Selenium Script
 
 from selenium import webdriver
-from remotework import current_date
-from new_db import drop_table, create_table, populate_table, export_csv, get_column_name, get_rows, get_all_columns
+from remotework import *
+from new_db import *
+from airtable_api import *
 from airtable import Airtable
 import time
 import secret
@@ -93,28 +94,20 @@ all_links = driver.find_elements_by_xpath("//a[@href]")
 job_links_elem = all_links[8:-3]
 
 job_links = []
-
 for elem in job_links_elem:
-	job_links.append("https://bearfounders.com" + elem.get_attribute("href"))
+	job_links.append(elem.get_attribute("href"))
 
-table_list = [companies, jobs, job_links, current_date(len(companies))]
 
+table_list = [companies, jobs, job_links, current_date(len(companies)), source("BearFounders", len(companies))]
+
+#Populate SQLite3 tables
 drop_table('Bear_founders')
-create_table('Bear_founders', ['Company', 'Position', 'Link', 'UpdateDate'], ['TEXT', 'TEXT', 'TEXT', 'TEXT'])
+create_table('Bear_founders', ['Company', 'Position', 'Link', 'UpdateDate', 'Source'], ['TEXT', 'TEXT', 'TEXT', 'TEXT', 'TEXT'])
 populate_table('Bear_founders', 1, table_list)
 
-all_rows = get_rows('Bear_founders')
-columns = get_all_columns('Bear_founders')
 
-jobtable = Airtable('app7MGkIIuH9oeI5V', 'Jobs', 'key4RKPGoJAzzJzAO')
-
-for i in all_rows:
-    row = {}
-    for j in range(0, len(columns)):
-        row[columns[j][1]] = i[j]
-    jobtable.insert(row)
-
-
+#Airtable API
+populate_airtable(get_rows('Bear_founders'), get_all_columns('Bear_founders'))
 
 #Test printing and exporting
 #new_db.print_table('Bear_founders')
